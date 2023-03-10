@@ -1,42 +1,56 @@
-import React, { useState } from 'react';
-import {Scrollbars} from 'react-custom-scrollbars-2';
-import Items from './Items';
+import React, { createContext, useEffect, useReducer } from 'react';
+
 import { product } from './Product';
+import ContextCart from './ContextCart';
+import { reducer } from './reducer';
+
+//used ContextApi and ContextProvider instead of useState
+export const CartContext = createContext();
+
+//inital values is defined below and state is in reducer
+const initalState = {
+    currentItem: product,
+    totalAmount: 0,
+    totalItem: 0
+}
 
 const Cart = () => {
-    const [currentItem, setItems] = useState(product);
+    // const [currentItem, setItems] = useState(product); // used this for pure react not used any ContextApi and ContextProvier
 
+    //using the useReducer 
+    const [state,dispatch] = useReducer(reducer,initalState);
 
+    const increment = (id) => {
+        return dispatch({
+            type: "INCREMENT",
+            payload: id,
+        })
+
+    };
+
+    const decrement = (id) =>{
+        return dispatch({
+            type: "DECREMENT",
+            payload: id
+        })
+    };
+
+    //useEffect to update number of data in the Cart 
+    // useEffect(() =>{
+    //     dispatch({
+    //         type:"GET_TOTAL",
+           
+    //     });
+    // },[state.currentItem]);
+
+     
     return (
         <>
-        <header>
-            <div className='continue-shopping'>
-                <h3>Back</h3>
-            </div>
-        </header>
-
-        <section className='main-cart-section'>
-            <h2>Items</h2>
-            <p className='total-items'> You have {} items in Cart</p>
-            <div className='cart-items'>
-                <div className='cart-items-container'>
-                    <Scrollbars>
-                       {
-                            currentItem.map((item) => {
-                                return <Items key={item.id} {...item}/>
-                            })
-                       }
-                    
-                    </Scrollbars>
-            </div>
-                 
-            </div>
-            <div className='card-total'>
-                <h3>Total: <span>200</span></h3>
-                <button>Done</button>
-            </div>
-        </section>
-        
+           
+                <CartContext.Provider value={{ ...state, increment, decrement }}>
+                    <ContextCart />
+                </CartContext.Provider>
+            
         </>
     )
 }

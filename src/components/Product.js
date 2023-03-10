@@ -4,7 +4,7 @@ export const product = [
         title: "Egg puff",
         price: 20,
         img: "https://images.pexels.com/photos/36756/food-pizza-roll-baked.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        quantity: 1
+        quantity: 2
     },
     {
         id: 2,
@@ -13,4 +13,5 @@ export const product = [
         img: "https://images.pexels.com/photos/36756/food-pizza-roll-baked.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         quantity: 1
     }
+    
 ]
