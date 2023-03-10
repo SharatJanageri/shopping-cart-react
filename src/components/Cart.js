@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-
 import { product } from './Product';
 import ContextCart from './ContextCart';
 import { reducer } from './reducer';
@@ -11,11 +10,13 @@ export const CartContext = createContext();
 const initalState = {
     currentItem: product,
     totalAmount: 0,
-    totalItem: 0
+    totalItems: 0,
 }
 
+
 const Cart = () => {
-    // const [currentItem, setItems] = useState(product); // used this for pure react not used any ContextApi and ContextProvier
+    // used this for pure react not used any ContextApi and ContextProvier
+    // const [currentItem, setItems] = useState();
 
     //using the useReducer 
     const [state,dispatch] = useReducer(reducer,initalState);
@@ -35,19 +36,42 @@ const Cart = () => {
         })
     };
 
-    //useEffect to update number of data in the Cart 
-    // useEffect(() =>{
-    //     dispatch({
-    //         type:"GET_TOTAL",
-           
-    //     });
-    // },[state.currentItem]);
+    const lastValue = (data) => {
+        return dispatch({
+            type: "LAST",
+            payload: data
+        } ); 
+    };
 
-     
+    //useEffect to update number of data in the Cart 
+    useEffect(() =>{
+        dispatch({
+            type:"GET_TOTAL",
+        });
+    },[state.currentItem]);
+
+    //to store values in local storage 
+       useEffect(() => {
+        localStorage.setItem( "Data",JSON.stringify(state) );
+    },[state]);
+    
+
+    //getvalues from local storage
+    useEffect(() => {
+        const data = localStorage.getItem( "Data" ); //get the local values
+        if(data){
+            lastValue(data)
+
+        }
+        else{
+            // console.log("skdjfl")
+        }
+    },[]);
+   
     return (
         <>
            
-                <CartContext.Provider value={{ ...state, increment, decrement }}>
+                <CartContext.Provider value={{ ...state, increment, decrement, lastValue }}>
                     <ContextCart />
                 </CartContext.Provider>
             

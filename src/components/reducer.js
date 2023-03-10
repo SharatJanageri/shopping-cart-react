@@ -3,6 +3,7 @@ export const reducer = (state,action) => {
     if(action.type === "INCREMENT"){
         let updatedCart = state.currentItem.map((curElement) => {
             if(curElement.id === action.payload){
+               
                return {...curElement, quantity:curElement.quantity++}
             }
             return curElement;
@@ -28,19 +29,28 @@ export const reducer = (state,action) => {
         return {...state,currentItem:updatedValues};
     }
 
-    // if(action.type ==="GET_TOTAL"){
-    //     let {totalItem } = state.currentItem.reduce((accum, curValue) => {
-    //         let { quantity } = curValue;
-    //         accum.totalItem += quantity;
-    //         return accum;
+    if(action.type ==="GET_TOTAL"){
+        
+        let { totalItems, totalAmount } = state.currentItem.reduce( (accum, currentValue) => {
+           
+            let {quantity, amount } = currentValue;           
 
-    //     },
-    //     {
-    //         totalItem: 0,
-    //     }
-    //     );
-    //     return {...state, totalItem};
-    // }
+            accum.totalAmount += amount * quantity;
+            accum.totalItems += quantity ;
+           
+                     
+            return accum;
+            
+        },    
+        {   
+            totalItems: 0,
+            totalAmount: 0,
+          
+
+        });
+       
+        return {...state, totalItems,totalAmount};
+    }
 
     return state;
 }

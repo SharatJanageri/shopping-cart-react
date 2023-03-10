@@ -7,7 +7,8 @@ import { CartContext } from "./Cart";
 
 const ContextCart = () =>{
     //using the useContext hook for the currentItem as var.
-    const {currentItem} = useContext(CartContext);
+    const {currentItem, totalItems, totalAmount} = useContext(CartContext);
+    
 
     return (
         <>
@@ -19,7 +20,7 @@ const ContextCart = () =>{
 
     <section className='main-cart-section'>
         <h2>Items</h2>
-        <p className='total-items'> You have {} items in Cart</p>
+        <p className='total-items'> You have { totalItems }  in Cart</p>
         <div className='cart-items'>
             <div className='cart-items-container'>
                 <Scrollbars>
@@ -34,7 +35,7 @@ const ContextCart = () =>{
              
         </div>
         <div className='card-total'>
-            <h3>Total: <span>200</span></h3>
+            <h3>Total: <span>{totalAmount}</span></h3>
             <button>Done</button>
         </div>
     </section>
