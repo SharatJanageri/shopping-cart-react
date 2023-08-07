@@ -1,3 +1,6 @@
+# shopping-cart-react
+The repo contains simple adding predefined items to the cart and try to calculate the sum of all the added values and give a checkout. 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
